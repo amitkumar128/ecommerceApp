@@ -200,7 +200,7 @@ fun ProfileHeader() {
             Column {
                 Text(text = "Hello", style = MaterialTheme.typography.bodySmall)
                 Text(
-                    text = "John Doe",
+                    text = "Amit Kumar",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )

@@ -63,5 +63,6 @@ dependencies {
     implementation(libs.koin.android.compose)
     implementation(libs.compose.navigation)
     implementation(libs.coil.compose)
+    implementation(libs.coil3.coil.network.okhttp)
     implementation(libs.kotlinx.serializable)
 }
