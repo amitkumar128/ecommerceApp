@@ -37,7 +37,7 @@ import com.myecommapp.navigation.ProductDetails
 import com.myecommapp.navigation.ProfileScreen
 import com.myecommapp.navigation.productNavType
 import com.myecommapp.ui.feature.home.HomeScreen
-import com.myecommapp.ui.feature.products.ProductDetailScreen
+import com.myecommapp.ui.feature.products.ProductDetailsScreen
 import com.myecommapp.ui.theme.ShopperTheme
 import kotlin.reflect.typeOf
 
@@ -84,7 +84,7 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 shouldShowBottomNav.value = false
                                 val productRoute = it.toRoute<ProductDetails>()
-                                ProductDetailScreen(navController, productRoute.product)
+                                ProductDetailsScreen(navController, productRoute.product)
                             }
                         }
                     }

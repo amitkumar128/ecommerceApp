@@ -1,20 +1,26 @@
 package com.ecomm.data.network
 
-import com.ecomm.data.model.DataProductModel
+import com.ecomm.data.model.request.AddToCartRequest
+import com.ecomm.data.model.response.CartResponse
 import com.ecomm.data.model.response.CategoriesListResponse
-import com.ecomm.data.model.response.CategoryDataModel
 import com.ecomm.data.model.response.ProductListResponse
+import com.ecomm.domain.model.CartItemModel
+import com.ecomm.domain.model.CartModel
 import com.ecomm.domain.model.CategoryListModel
-import com.ecomm.domain.model.Product
 import com.ecomm.domain.model.ProductListModel
+import com.ecomm.domain.model.request.AddCartRequestModel
 import com.ecomm.domain.network.NetworkService
 import com.ecomm.domain.network.ResultWrapper
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.ServerResponseException
-import io.ktor.client.request.*
-import io.ktor.http.*
+import io.ktor.client.request.header
+import io.ktor.client.request.request
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
+import io.ktor.http.contentType
 import io.ktor.utils.io.errors.IOException
 
 class NetworkServiceImpl(val client: HttpClient) : NetworkService {
@@ -45,12 +51,23 @@ class NetworkServiceImpl(val client: HttpClient) : NetworkService {
         return makeWebRequest(
             url = url,
             method = HttpMethod.Get,
-            mapper = {
-                categories: CategoriesListResponse ->
+            mapper = { categories: CategoriesListResponse ->
                 categories.categoriesList()
             }
         )
     }
+
+    override suspend fun addProductToCart(addCartRequestModel: AddCartRequestModel,userId: Long): ResultWrapper<CartModel> {
+        val url = "$baseUrl/cart/${userId}"
+        return makeWebRequest(
+            url = url,
+            method = HttpMethod.Post,
+            body = AddToCartRequest.fromCartRequestModel(addCartRequestModel),
+            mapper = { cartItem: CartResponse ->
+                cartItem.toCartModel()
+            })
+    }
+
     private suspend inline fun <reified T, R> makeWebRequest(
         url: String,
         method: HttpMethod,
